@@ -50,7 +50,6 @@ async def begin(message: types.Message, state: FSMContext):
         data = json.loads(r.text)
 
         await bbt_data(data, first, message.chat.id)
-        await bot.send_message(message.chat.id, 'done')
         first = False
 
 
