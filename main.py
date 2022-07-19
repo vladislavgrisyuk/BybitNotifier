@@ -21,16 +21,6 @@ import json
 from datetime import datetime
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s] [%(levelname)s] %(message)s",
-    datefmt='%Y.%m.%d %H:%M:%S',
-    handlers=[
-        logging.FileHandler("debug.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
-
 load_dotenv()
 
 storage = MemoryStorage()
@@ -40,12 +30,6 @@ token = os.getenv('TOKEN')
 bot = Bot(token)
 dp = Dispatcher(bot, storage=storage)
 listOrders = []
-
-
-class UserState(StatesGroup):
-    base = State()
-    choose = State()
-    Chosen = State()
 
 
 @dp.message_handler(commands=['start', 'menu'])
@@ -63,7 +47,8 @@ async def begin(message: types.Message, state: FSMContext):
         await bbt_data(data, first, message.chat.id)
 
         r = requests.get(url + lm2)
-
+        await message.answer(r)
+        return
         data = json.loads(r.text)
 
         await bbt_data(data, first, message.chat.id)
