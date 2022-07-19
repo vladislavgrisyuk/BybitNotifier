@@ -112,3 +112,43 @@ TypeError: can only concatenate str (not "datetime.datetime") to str
 [2022.07.19 13:17:25] [WARNING] Updates were skipped successfully.
 [2022.07.19 13:17:25] [INFO] Start polling.
 [2022.07.19 13:34:16] [INFO] Stop polling...
+[2022.07.19 14:18:36] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 14:18:38] [WARNING] Updates were skipped successfully.
+[2022.07.19 14:18:38] [INFO] Start polling.
+[2022.07.19 14:20:04] [ERROR] Task exception was never retrieved
+future: <Task finished name='Task-13' coro=<Dispatcher._process_polling_updates() done, defined at /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py:407> exception=MessageTextIsEmpty('Message text is empty')>
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Users/nastyashymanskaya/Repos/BybitApiTrader/PdfVaccineHelper/main.py", line 69, in begin
+    await bot.send_message(message.chat.id, bbt_data(data, first))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/bot/bot.py", line 334, in send_message
+    result = await self.request(api.Methods.SEND_MESSAGE, payload)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/bot/base.py", line 231, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/bot/api.py", line 140, in make_request
+    return check_result(method, response.content_type, response.status, await response.text())
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/bot/api.py", line 115, in check_result
+    exceptions.BadRequest.detect(description)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/utils/exceptions.py", line 140, in detect
+    raise err(cls.text or description)
+aiogram.utils.exceptions.MessageTextIsEmpty: Message text is empty
+[2022.07.19 14:21:44] [INFO] Stop polling...
+[2022.07.19 14:21:44] [WARNING] Goodbye!
+[2022.07.19 14:25:14] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 14:25:15] [WARNING] Updates were skipped successfully.
+[2022.07.19 14:25:16] [INFO] Start polling.
+[2022.07.19 14:26:08] [INFO] Stop polling...
+[2022.07.19 14:26:08] [WARNING] Goodbye!
+[2022.07.19 14:26:10] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 14:26:11] [WARNING] Updates were skipped successfully.
+[2022.07.19 14:26:12] [INFO] Start polling.
+[2022.07.19 14:28:19] [INFO] Stop polling...

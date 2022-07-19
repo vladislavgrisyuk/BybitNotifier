@@ -60,23 +60,25 @@ async def begin(message: types.Message, state: FSMContext):
 
         data = json.loads(r.text)
 
-        await bot.send_message(message.chat.id, bbt_data(data, first))
+        await bbt_data(data, first, message.chat.id)
 
         r = requests.get(url + lm2)
 
         data = json.loads(r.text)
 
-        await bot.send_message(message.chat.id, bbt_data(data, first))
+        await bbt_data(data, first, message.chat.id)
+        await bot.send_message(message.chat.id, 'done')
         first = False
 
 
-def bbt_data(data, first):
+async def bbt_data(data, first, chat_id):
     for i in data['result']['data']:
         if(not listOrders.__contains__(i['createdAtE3']) or first):
             listOrders.append(i['createdAtE3'])
             size = len(i['createdAtE3'])
 
-            return 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' + '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i['createdAtE3'][:size - 3]))) + '\n' + 'Маржа: ' + i['leverageE2']
+            await bot.send_message(chat_id, 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
+                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i['createdAtE3'][:size - 3]))) + '\n' + 'Маржа: ' + i['leverageE2'])
 
 
 async def on_startup(dispatcher):
