@@ -35,3 +35,80 @@
 [2022.02.13 14:44:38] [INFO] Start polling.
 [2022.02.13 14:44:53] [INFO] Stop polling...
 [2022.02.13 14:44:53] [WARNING] Goodbye!
+[2022.07.19 12:48:55] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 12:48:56] [WARNING] Updates were skipped successfully.
+[2022.07.19 12:48:57] [INFO] Start polling.
+[2022.07.19 12:49:09] [INFO] [requested files][id: 380472185][full name: Vladislav][text: /all]
+[2022.07.19 12:59:51] [INFO] Stop polling...
+[2022.07.19 12:59:51] [WARNING] Goodbye!
+[2022.07.19 13:08:03] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 13:08:04] [WARNING] Updates were skipped successfully.
+[2022.07.19 13:08:04] [INFO] Start polling.
+[2022.07.19 13:11:06] [INFO] Stop polling...
+[2022.07.19 13:11:09] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 13:11:10] [WARNING] Updates were skipped successfully.
+[2022.07.19 13:11:10] [INFO] Start polling.
+[2022.07.19 13:11:29] [ERROR] Task exception was never retrieved
+future: <Task finished name='Task-10' coro=<Dispatcher._process_polling_updates() done, defined at /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py:407> exception=TypeError('an integer is required (got type str)')>
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Users/nastyashymanskaya/Repos/BybitApiTrader/PdfVaccineHelper/main.py", line 71, in begin
+    datetime.fromtimestamp(
+TypeError: an integer is required (got type str)
+[2022.07.19 13:11:46] [INFO] Stop polling...
+[2022.07.19 13:11:46] [WARNING] Goodbye!
+[2022.07.19 13:11:49] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 13:11:50] [WARNING] Updates were skipped successfully.
+[2022.07.19 13:11:50] [INFO] Start polling.
+[2022.07.19 13:12:02] [ERROR] Task exception was never retrieved
+future: <Task finished name='Task-10' coro=<Dispatcher._process_polling_updates() done, defined at /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py:407> exception=ValueError('year 54515 is out of range')>
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Users/nastyashymanskaya/Repos/BybitApiTrader/PdfVaccineHelper/main.py", line 71, in begin
+    datetime.fromtimestamp(
+ValueError: year 54515 is out of range
+[2022.07.19 13:16:32] [INFO] Stop polling...
+[2022.07.19 13:16:32] [WARNING] Goodbye!
+[2022.07.19 13:16:35] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 13:16:36] [WARNING] Updates were skipped successfully.
+[2022.07.19 13:16:36] [INFO] Start polling.
+[2022.07.19 13:16:51] [ERROR] Task exception was never retrieved
+future: <Task finished name='Task-10' coro=<Dispatcher._process_polling_updates() done, defined at /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py:407> exception=TypeError('can only concatenate str (not "datetime.datetime") to str')>
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 415, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 235, in process_updates
+    return await asyncio.gather(*tasks)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 256, in process_update
+    return await self.message_handlers.notify(update.message)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/aiogram/dispatcher/handler.py", line 116, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+  File "/Users/nastyashymanskaya/Repos/BybitApiTrader/PdfVaccineHelper/main.py", line 66, in begin
+    'Монета: ' + i['symbol'] + '\n' +
+TypeError: can only concatenate str (not "datetime.datetime") to str
+[2022.07.19 13:17:21] [INFO] Stop polling...
+[2022.07.19 13:17:21] [WARNING] Goodbye!
+[2022.07.19 13:17:23] [INFO] Bot: pdfvaccinehelper_test [@pdfvaccinehelper_test_bot]
+[2022.07.19 13:17:25] [WARNING] Updates were skipped successfully.
+[2022.07.19 13:17:25] [INFO] Start polling.
+[2022.07.19 13:34:16] [INFO] Stop polling...
