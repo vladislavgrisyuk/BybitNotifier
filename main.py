@@ -37,7 +37,7 @@ async def begin(message: types.Message, state: FSMContext):
     first = True
     while(True):
         lm1 = '9xYyjdZ9o2NiueyhdrP2fQ=='
-        lm2 = 'bTTxdRatXQ6XkYDX8mHgyw=='
+        lm2 = 'faSUr/a2JG/Pv+vHa7Yoew=='
         url = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
 
         r = requests.get(url + lm1)
