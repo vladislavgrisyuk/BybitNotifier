@@ -36,7 +36,7 @@ listOrders = []
 async def begin(message: types.Message, state: FSMContext):
     first = True
     while(True):
-        lm1 = 'faSUr/a2JG/Pv+vHa7Yoew=='
+        lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
         url = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
 
         r = requests.get(url + lm1)
