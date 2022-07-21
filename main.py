@@ -38,6 +38,7 @@ async def begin(message: types.Message, state: FSMContext):
     while(True):
         lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
         lm2 = 'R%2BnmHxrzC38tQ8hKhZAqZA%3D%3D'
+        lm3 = 'bTTxdRatXQ6XkYDX8mHgyw%3D%3D'
         url = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
 
         r = requests.get(url + lm1)
@@ -47,6 +48,10 @@ async def begin(message: types.Message, state: FSMContext):
         await bbt_data(data, first, message.chat.id)
 
         r = requests.get(url + lm2)
+        data = json.loads(r.text)
+
+        await bbt_data(data, first, message.chat.id)
+        r = requests.get(url + lm3)
         data = json.loads(r.text)
 
         await bbt_data(data, first, message.chat.id)
