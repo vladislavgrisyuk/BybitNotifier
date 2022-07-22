@@ -39,6 +39,7 @@ async def begin(message: types.Message, state: FSMContext):
         lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
         lm2 = 'R%2BnmHxrzC38tQ8hKhZAqZA%3D%3D'
         lm3 = 'bTTxdRatXQ6XkYDX8mHgyw%3D%3D'
+        lm4 = 'vkbt1akj%2F7S0Xe3MB3bTgQ%3D%3D'
         url = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
 
         r = requests.get(url + lm1)
@@ -55,16 +56,21 @@ async def begin(message: types.Message, state: FSMContext):
         data = json.loads(r.text)
 
         await bbt_data(data, first, message.chat.id)
+        r = requests.get(url + lm4)
+        data = json.loads(r.text)
+
+        await bbt_data(data, first, message.chat.id, 'kitaec 100%')
         first = False
 
 
-async def bbt_data(data, first, chat_id):
+async def bbt_data(data, first, chat_id, name=''):
     for i in data['result']['data']:
         if(not listOrders.__contains__(i['createdAtE3']) or first):
             listOrders.append(i['createdAtE3'])
             size = len(i['createdAtE3'])
 
-            await bot.send_message(chat_id, 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
+            await bot.send_message(chat_id,
+                                   'KITAEC\n' + 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
                                    '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i['createdAtE3'][:size - 3]))) + '\n' + 'Маржа: ' + i['leverageE2'])
 
 
