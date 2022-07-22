@@ -46,20 +46,20 @@ async def begin(message: types.Message, state: FSMContext):
 
         data = json.loads(r.text)
 
-        await bbt_data(data, first, message.chat.id)
+        await bbt_data(data, first, message.chat.id, 'Moonpulse moi')
 
         r = requests.get(url + lm2)
         data = json.loads(r.text)
 
-        await bbt_data(data, first, message.chat.id)
+        await bbt_data(data, first, message.chat.id, 'Brazil not bad 30%+')
         r = requests.get(url + lm3)
         data = json.loads(r.text)
 
-        await bbt_data(data, first, message.chat.id)
+        await bbt_data(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         r = requests.get(url + lm4)
         data = json.loads(r.text)
 
-        await bbt_data(data, first, message.chat.id, 'kitaec 100%')
+        await bbt_data(data, first, message.chat.id, 'Kitaec 100%')
         first = False
 
 
@@ -70,7 +70,7 @@ async def bbt_data(data, first, chat_id, name=''):
             size = len(i['createdAtE3'])
 
             await bot.send_message(chat_id,
-                                   'KITAEC\n' + 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
+                                   name + '\n' + 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
                                    '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i['createdAtE3'][:size - 3]))) + '\n' + 'Маржа: ' + i['leverageE2'])
 
 
