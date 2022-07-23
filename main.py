@@ -79,8 +79,8 @@ async def begin(message: types.Message, state: FSMContext):
 async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
     for i in ll:
-        if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
-            listOrders.append(i)
+        if(not any(j.createdAt == i.createdAt for j in listOrders)):
+            listOrders.remove(i)
             size = len(i.createdAt)
 
             await bot.send_message(chat_id,
