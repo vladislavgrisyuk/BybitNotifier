@@ -48,7 +48,7 @@ async def begin(message: types.Message, state: FSMContext):
     while(True):
         lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
         lm2 = 'vkbt1akj%2F7S0Xe3MB3bTgQ%3D%3D'
-        lm3 = 'bTTxdRatXQ6XkYDX8mHgyw%3D%3D'
+        lm3 = 'MPw0JFxXfu926mGwDpqPyA%3D%3D'
         lm4 = 'lnOkBfOK6yeMGFaxdw4iFA%3D%3D'
 
         # r = requests.get(URL + lm1)
@@ -68,25 +68,25 @@ async def begin(message: types.Message, state: FSMContext):
 
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        r = requests.get(URL + lm4)
+        r = requests.get(URL + lm3, headers={'Connection': 'close'})
         data = json.loads(r.text)
 
         await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
         first = False
 
 
 async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
+    # if (first):
+    #     ll.append(order('1', '2', '3', '1232123', '5'))
     for i in ll:
-        if(not any(j.createdAt == i.createdAt for j in listOrders)):
-            for it in listOrders:
-                # if(it.createdAt == i.createdAt)
-                print(2)
+        if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
+            listOrders.append(i)
             size = len(i.createdAt)
 
             await bot.send_message(chat_id,
-                                   name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
                                    '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
 
@@ -94,12 +94,12 @@ async def check_if_close_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
 
     for i in listOrders:
-        if(not any(j.createdAt == i.createdAt for j in ll) or first):
-            listOrders.append(i)
+        if(not any(j.createdAt == i.createdAt for j in ll)):
+            listOrders.remove(i)
             size = len(i.createdAt)
 
             await bot.send_message(chat_id,
-                                   'ВЫХОД' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
                                    '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
 
