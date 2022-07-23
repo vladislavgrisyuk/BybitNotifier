@@ -5,6 +5,7 @@ from aiogram.types.message_entity import MessageEntity
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from order import order
 from talent import talentS
 import pdfhelper
 import helper
@@ -20,6 +21,8 @@ import requests
 import json
 from datetime import datetime
 
+from trader import trader
+
 
 load_dotenv()
 
@@ -30,6 +33,13 @@ token = os.getenv('TOKEN')
 bot = Bot(token)
 dp = Dispatcher(bot, storage=storage)
 listOrders = []
+URL = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
+listTraders = [
+    trader('faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D', 'Moonpulse'),
+    trader('vkbt1akj%2F7S0Xe3MB3bTgQ%3D%3D', 'Китаец топ-5'),
+    trader('bTTxdRatXQ6XkYDX8mHgyw%3D%3D', 'Топ - 1 вернулся'),
+    trader('lnOkBfOK6yeMGFaxdw4iFA%3D%3D', 'Китаец верняк'),
+]
 
 
 @dp.message_handler(commands=['start', 'menu'])
@@ -37,61 +47,76 @@ async def begin(message: types.Message, state: FSMContext):
     first = True
     while(True):
         lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
-        lm2 = 'R%2BnmHxrzC38tQ8hKhZAqZA%3D%3D'
+        lm2 = 'vkbt1akj%2F7S0Xe3MB3bTgQ%3D%3D'
         lm3 = 'bTTxdRatXQ6XkYDX8mHgyw%3D%3D'
         lm4 = 'lnOkBfOK6yeMGFaxdw4iFA%3D%3D'
-        url = 'https://api2.bybit.com/fapi/beehive/public/v1/common/order/list-detail?timeStamp=1658218420604&leaderMark='
 
-        r = requests.get(url + lm1)
+        # r = requests.get(URL + lm1)
 
+        # data = json.loads(r.text)
+
+        # await check_new_orders(data, first, message.chat.id, 'Moonpulse moi')
+        # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+
+        # r = requests.get(URL + lm2)
+        # data = json.loads(r.text)
+
+        # await check_new_orders(data, first, message.chat.id, 'kitaec top-5')
+        # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        # r = requests.get(URL + lm3)
+        # data = json.loads(r.text)
+
+        # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
+        # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        r = requests.get(URL + lm4)
         data = json.loads(r.text)
 
-        await bbt_data(data, first, message.chat.id, 'Moonpulse moi')
-
-        r = requests.get(url + lm2)
-        data = json.loads(r.text)
-
-        await bbt_data(data, first, message.chat.id, 'Brazil not bad 30%+')
-        r = requests.get(url + lm3)
-        data = json.loads(r.text)
-
-        await bbt_data(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
-        r = requests.get(url + lm4)
-        data = json.loads(r.text)
-
-        await bbt_data(data, first, message.chat.id, 'Kitaec 100%')
+        await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
         first = False
 
 
-async def bbt_data(data, first, chat_id, name=''):
-    for i in data['result']['data']:
-        if(not listOrders.__contains__(i['createdAtE3']) or first):
-            listOrders.append(i['createdAtE3'])
-            size = len(i['createdAtE3'])
+async def check_new_orders(data, first, chat_id, name=''):
+    ll = await parseOrders(data)
+    for i in ll:
+        if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
+            listOrders.append(i)
+            size = len(i.createdAt)
 
             await bot.send_message(chat_id,
-                                   name + '\n' + 'Монета: ' + i['symbol'] + '\n' + 'Вид: ' + i['side'] + '\n' + 'Курс входа: ' + i['entryPrice'] + '$' +
-                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i['createdAtE3'][:size - 3]))) + '\n' + 'Маржа: ' + i['leverageE2'])
+                                   name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+
+
+async def check_if_close_orders(data, first, chat_id, name=''):
+    ll = await parseOrders(data)
+
+    for i in listOrders:
+        if(not any(j.createdAt == i.createdAt for j in ll) or first):
+            listOrders.append(i)
+            size = len(i.createdAt)
+
+            await bot.send_message(chat_id,
+                                   'ВЫХОД' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+
+
+async def parseOrders(data):
+    localList = []
+    for i in data['result']['data']:
+        localList.append(
+            order(i['symbol'], i['side'], i['entryPrice'],
+                  i['createdAtE3'], i['leverageE2'])
+        )
+    return localList
 
 
 async def on_startup(dispatcher):
     commands = [
         {
-            "command": "/nastya",
-            "description": "Certificate for nastya"
+            "command": "/start",
+            "description": "Start the bot"
         },
-        {
-            "command": "/vlad",
-            "description": "Certificate for vlad"
-        },
-        {
-            "command": "/all",
-            "description": "Both certificates"
-        },
-        {
-            "command": "/menu",
-            "description": "Menu buttons"
-        }
     ]
     await bot.set_my_commands(commands)
 
