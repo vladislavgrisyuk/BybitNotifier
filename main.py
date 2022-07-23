@@ -68,7 +68,7 @@ async def begin(message: types.Message, state: FSMContext):
 
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        r = requests.get(URL + lm3, headers={'Connection': 'close'})
+        r = requests.get(URL + lm4, headers={'Connection': 'close'})
         data = json.loads(r.text)
 
         await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
