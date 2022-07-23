@@ -72,7 +72,7 @@ async def begin(message: types.Message, state: FSMContext):
         data = json.loads(r.text)
 
         await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
         first = False
 
 
@@ -80,7 +80,9 @@ async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
     for i in ll:
         if(not any(j.createdAt == i.createdAt for j in listOrders)):
-            listOrders.remove(i)
+            for it in listOrders:
+                # if(it.createdAt == i.createdAt)
+                print(2)
             size = len(i.createdAt)
 
             await bot.send_message(chat_id,
