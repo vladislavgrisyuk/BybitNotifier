@@ -33,6 +33,8 @@ load_dotenv()
 storage = MemoryStorage()
 
 token = os.getenv('TOKEN')
+api_key = os.getenv('API_KEY')
+api_secret = os.getenv('API_SECRET')
 
 bot = Bot(token)
 dp = Dispatcher(bot, storage=storage)
@@ -45,7 +47,7 @@ listTraders = [
     trader('lnOkBfOK6yeMGFaxdw4iFA%3D%3D', 'Китаец верняк'),
 ]
 
-DEFAULT_QTY = 0.01
+DEFAULT_QTY = 0.015
 
 
 @dp.message_handler(commands=['start', 'menu'])
@@ -74,15 +76,14 @@ async def begin(message: types.Message, state: FSMContext):
 
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        try:
-            r = requests.get(URL + lm4, headers={'Connection': 'close'})
-            data = json.loads(r.text)
 
-            await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-            await asyncio.sleep(1)
-            await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        except:
-            pass
+        r = requests.get(URL + lm4, headers={'Connection': 'close'})
+        data = json.loads(r.text)
+
+        await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        await asyncio.sleep(1)
+        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+
         first = False
 
 
@@ -90,17 +91,16 @@ async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
     # if (first):
     #     ll.append(order('BTCUSDT', 'Sell', '3', '1232123', '5'))
+    print(ll.__len__())
     for i in ll:
         if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
-            if(first):
-                i.is_created = False
-            else:
-                i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
-                    'result']['order_id']
-                size = len(i.createdAt)
-                await bot.send_message(chat_id,
-                                       '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+
+            # i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
+            # 'result']['order_id']
+            size = len(i.createdAt)
+            await bot.send_message(chat_id,
+                                   '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
             listOrders.append(i)
 
@@ -116,8 +116,8 @@ async def check_if_close_orders(data, first, chat_id, name=''):
             lside = 'Sell'
             if(i.side == 'Sell'):
                 lside = 'Buy'
-            if(i.is_created):
-                bybitApi.close_order(i.symbol, lside, DEFAULT_QTY)
+
+                # bybitApi.close_order(i.symbol, lside, DEFAULT_QTY)
                 await bot.send_message(chat_id,
                                        '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
                                        '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
