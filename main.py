@@ -77,7 +77,9 @@ async def begin(message: types.Message, state: FSMContext):
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
 
-        r = requests.get(URL + lm4, headers={'User-Agent': 'Vladyslav'})
+        r = requests.get(URL + lm4, headers={
+            'User-Agent': 'vladislav'
+        })
         data = json.loads(r.text)
 
         await check_new_orders(data, first, message.chat.id, 'Китаец верняк')
