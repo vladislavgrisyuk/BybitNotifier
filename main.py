@@ -1,5 +1,8 @@
+import asyncio
 import datetime
 from pydoc import text
+from tarfile import DEFAULT_FORMAT
+from time import sleep
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.types.message_entity import MessageEntity
 from aiogram.dispatcher import FSMContext
@@ -20,6 +23,7 @@ import sys
 import requests
 import json
 from datetime import datetime
+import bybitApi
 
 from trader import trader
 
@@ -40,6 +44,8 @@ listTraders = [
     trader('bTTxdRatXQ6XkYDX8mHgyw%3D%3D', 'Топ - 1 вернулся'),
     trader('lnOkBfOK6yeMGFaxdw4iFA%3D%3D', 'Китаец верняк'),
 ]
+
+DEFAULT_QTY = 0.01
 
 
 @dp.message_handler(commands=['start', 'menu'])
@@ -68,26 +74,35 @@ async def begin(message: types.Message, state: FSMContext):
 
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        r = requests.get(URL + lm4, headers={'Connection': 'close'})
-        data = json.loads(r.text)
+        try:
+            r = requests.get(URL + lm4, headers={'Connection': 'close'})
+            data = json.loads(r.text)
 
-        await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+            await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+            await asyncio.sleep(1)
+            await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        except:
+            pass
         first = False
 
 
 async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
     # if (first):
-    #     ll.append(order('1', '2', '3', '1232123', '5'))
+    #     ll.append(order('BTCUSDT', 'Sell', '3', '1232123', '5'))
     for i in ll:
         if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
-            listOrders.append(i)
-            size = len(i.createdAt)
+            if(first):
+                i.is_created = False
+            else:
+                i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
+                    'result']['order_id']
+                size = len(i.createdAt)
+                await bot.send_message(chat_id,
+                                       '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
-            await bot.send_message(chat_id,
-                                   '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+            listOrders.append(i)
 
 
 async def check_if_close_orders(data, first, chat_id, name=''):
@@ -98,9 +113,14 @@ async def check_if_close_orders(data, first, chat_id, name=''):
             listOrders.remove(i)
             size = len(i.createdAt)
 
-            await bot.send_message(chat_id,
-                                   '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+            lside = 'Sell'
+            if(i.side == 'Sell'):
+                lside = 'Buy'
+            if(i.is_created):
+                bybitApi.close_order(i.symbol, lside, DEFAULT_QTY)
+                await bot.send_message(chat_id,
+                                       '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
 
 async def parseOrders(data):
