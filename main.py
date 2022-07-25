@@ -84,6 +84,7 @@ async def begin(message: types.Message, state: FSMContext):
         await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
 
         first = False
+        sleep(5)
 
 
 async def check_new_orders(data, first, chat_id, name=''):
