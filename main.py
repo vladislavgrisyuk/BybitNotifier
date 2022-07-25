@@ -47,7 +47,7 @@ listTraders = [
     trader('lnOkBfOK6yeMGFaxdw4iFA%3D%3D', 'Китаец верняк'),
 ]
 
-DEFAULT_QTY = 0.015
+DEFAULT_QTY = int(os.getenv('DEFAULT_QTY'))
 
 
 @dp.message_handler(commands=['start', 'menu'])
