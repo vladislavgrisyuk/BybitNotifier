@@ -125,7 +125,7 @@ async def check_if_close_orders(data, first, chat_id, name=''):
             lside = 'Sell'
             if(i.side == 'Sell'):
                 lside = 'Buy'
-            f = int(i.entryPrice)
+            f = i.entryPrice
 
             v = 100 / int(f)
 
