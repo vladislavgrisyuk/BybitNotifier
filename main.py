@@ -96,15 +96,15 @@ async def check_new_orders(data, first, chat_id, name=''):
     for i in ll:
         if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
 
-            if(first):
-                i.is_created = False
-            else:
-                i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
-                    'result']['order_id']
-                size = len(i.createdAt)
-                await bot.send_message(chat_id,
-                                       '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+            # if(first):
+            #     i.is_created = False
+            # else:
+            i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
+                'result']['order_id']
+            size = len(i.createdAt)
+            await bot.send_message(chat_id,
+                                   '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
             listOrders.append(i)
 
