@@ -105,13 +105,16 @@ async def check_new_orders(data, first, chat_id, name=''):
 
             nqty = float("{:.4f}".format(v))
             i.qty = nqty
-            i.order_id = bybitApi.place_order(i.symbol, i.side, nqty)[
-                'result']['order_id']
-            size = len(i.createdAt)
-            await bot.send_message(chat_id,
-                                   '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                   '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+            try:
+                i.order_id = bybitApi.place_order(i.symbol, i.side, nqty)[
+                    'result']['order_id']
+                size = len(i.createdAt)
+                await bot.send_message(chat_id,
+                                       '✅✅✅\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
 
+            except Exception as e:
+                print(e)
             listOrders.append(i)
 
 
@@ -128,10 +131,14 @@ async def check_if_close_orders(data, first, chat_id, name=''):
                 lside = 'Buy'
 
             if(i.is_created):
-                bybitApi.close_order(i.symbol, lside, i.qty)
-                await bot.send_message(chat_id,
-                                       '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
-                                       '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+                try:
+                    bybitApi.close_order(i.symbol, lside, i.qty)
+                    await bot.send_message(chat_id,
+                                           '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
+                                           '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
+
+                except Exception as e:
+                    print(e)
 
 
 async def parseOrders(data):
