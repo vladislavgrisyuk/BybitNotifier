@@ -99,7 +99,12 @@ async def check_new_orders(data, first, chat_id, name=''):
             # if(first):
             #     i.is_created = False
             # else:
-            i.order_id = bybitApi.place_order(i.symbol, i.side, DEFAULT_QTY)[
+            f = int(i.entryPrice)
+
+            v = 100 / int(f)
+
+            nqty = float("{:.4f}".format(v))
+            i.order_id = bybitApi.place_order(i.symbol, i.side, nqty)[
                 'result']['order_id']
             size = len(i.createdAt)
             await bot.send_message(chat_id,
@@ -120,9 +125,13 @@ async def check_if_close_orders(data, first, chat_id, name=''):
             lside = 'Sell'
             if(i.side == 'Sell'):
                 lside = 'Buy'
+            f = int(i.entryPrice)
 
+            v = 100 / int(f)
+
+            nqty = float("{:.4f}".format(v))
             if(i.is_created):
-                bybitApi.close_order(i.symbol, lside, DEFAULT_QTY)
+                bybitApi.close_order(i.symbol, lside, nqty)
                 await bot.send_message(chat_id,
                                        '㊗️㊗️㊗️\n' + name + '\n' + 'Монета: ' + i.symbol + '\n' + 'Вид: ' + i.side + '\n' + 'Курс входа: ' + i.entryPrice + '$' +
                                        '\n' + 'Время входа: ' + str(datetime.fromtimestamp(int(i.createdAt[:size - 3]))) + '\n' + 'Маржа: ' + i.leverage)
