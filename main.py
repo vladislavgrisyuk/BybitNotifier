@@ -77,21 +77,22 @@ async def begin(message: types.Message, state: FSMContext):
         # await check_new_orders(data, first, message.chat.id, 'CEO JEFFBZS TOP-1')
         # await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
 
-        r = requests.get(URL + lm4, headers={'User-Agent': 'Vladyslav'})
-        data = json.loads(r.text)
+        try:
+            r = requests.get(URL + lm4, headers={'User-Agent': 'Vladyslav'})
+            data = json.loads(r.text)
 
-        await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
-        await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+            await check_new_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+            await check_if_close_orders(data, first, message.chat.id, 'MAIN Kitaec <3')
+        except Exception as e:
+            print(e)
 
         first = False
-        sleep(5)
 
 
 async def check_new_orders(data, first, chat_id, name=''):
     ll = await parseOrders(data)
     # if (first):
     #     ll.append(order('BTCUSDT', 'Sell', '3', '1232123', '5'))
-    print(ll.__len__())
     for i in ll:
         if(not any(j.createdAt == i.createdAt for j in listOrders) or first):
 
