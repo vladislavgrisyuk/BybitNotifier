@@ -1,25 +1,10 @@
-import asyncio
 import datetime
-from pydoc import text
-from tarfile import DEFAULT_FORMAT
-from time import sleep
 from aiogram import Bot, Dispatcher, types, executor
-from aiogram.types.message_entity import MessageEntity
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from order import order
-from talent import talentS
-import pdfhelper
-import helper
-from replacements import get_replacement_with_time, get_replacements
-from random import randint
 import os
 from dotenv import load_dotenv
-from timeGenerator import generate_with_random_time
-from menu_keyboard import kb
-import logging
-import sys
 import requests
 import json
 from datetime import datetime
