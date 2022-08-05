@@ -57,7 +57,8 @@ async def begin(message: types.Message, state: FSMContext):
         lm1 = 'faSUr%2Fa2JG%2FPv%2BvHa7Yoew%3D%3D'
         lm2 = 'vkbt1akj%2F7S0Xe3MB3bTgQ%3D%3D'
         lm3 = 'MPw0JFxXfu926mGwDpqPyA%3D%3D'
-        lm4 = 'lnOkBfOK6yeMGFaxdw4iFA%3D%3D'
+        lm4 = 'kMwEUECvaG%2BvUrVCGM%2FkfA%3D%3D'
+        lm5 = 'lnOkBfOK6yeMGFaxdw4iFA%3D%3D'
 
         # r = requests.get(URL + lm1)
 
